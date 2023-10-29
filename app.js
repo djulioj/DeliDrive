@@ -15,9 +15,11 @@ app.use(cors()); // Middleware para manejar solicitudes CORS
 
 // Rutas
 const userRoutes = require("./routes/userRoutes"); // Importa las rutas de usuario
+const restaurantRoutes = require("./routes/restaurantRoutes"); // Importa las rutas de restaurante
 const productRoutes = require("./routes/productRoutes"); // Importa las rutas de producto
 
 app.use("/api", userRoutes); // Monta las rutas de usuario en /api/usuarios
+app.use("/api", restaurantRoutes); // Monta las rutas de usuario en /api/restaurantes
 app.use("/api", productRoutes); // Monta las rutas de usuario en /api/productos
 
 // Manejo de errores
