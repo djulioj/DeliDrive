@@ -6,7 +6,7 @@ const cors = require("cors");
 require("dotenv").config();
 
 //Configuración de la base de datos
-require("./database");
+require("./Database/config");
 
 // Configuración de Express
 app.use(express.json()); // Middleware para analizar solicitudes JSON
@@ -15,8 +15,10 @@ app.use(cors()); // Middleware para manejar solicitudes CORS
 
 // Rutas
 const userRoutes = require("./routes/userRoutes"); // Importa las rutas de usuario
+const productRoutes = require("./routes/productRoutes"); // Importa las rutas de producto
 
 app.use("/api", userRoutes); // Monta las rutas de usuario en /api/usuarios
+app.use("/api", productRoutes); // Monta las rutas de usuario en /api/productos
 
 // Manejo de errores
 app.use((req, res, next) => {
