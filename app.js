@@ -6,7 +6,7 @@ const cors = require("cors");
 require("dotenv").config();
 
 //Configuración de la base de datos
-require("./database");
+require("./Database/config");
 
 // Configuración de Express
 app.use(express.json()); // Middleware para analizar solicitudes JSON
