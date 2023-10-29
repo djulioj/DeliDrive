@@ -1,6 +1,12 @@
-const express = require('express');
+const express = require("express");
 const app = express();
-const mongoose = require('mongoose'); // Para conectar a MongoDB
+const cors = require("cors");
+
+//Configuración de las variables de entorno
+require("dotenv").config();
+
+//Configuración de la base de datos
+require("./database");
 
 // Configuración de Express
 app.use(express.json()); // Middleware para analizar solicitudes JSON
@@ -8,12 +14,13 @@ app.use(express.urlencoded({ extended: true })); // Middleware para analizar dat
 app.use(cors()); // Middleware para manejar solicitudes CORS
 
 // Rutas
-const userRoutes = require('./routes/userRoutes'); // Importa las rutas de usuario
-app.use('/api', userRoutes); // Monta las rutas de usuario en /api/usuarios
+const userRoutes = require("./routes/userRoutes"); // Importa las rutas de usuario
+
+app.use("/api", userRoutes); // Monta las rutas de usuario en /api/usuarios
 
 // Manejo de errores
 app.use((req, res, next) => {
-  const error = new Error('Ruta no encontrada');
+  const error = new Error("Ruta no encontrada");
   error.status = 404;
   next(error);
 });
