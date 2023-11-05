@@ -46,6 +46,11 @@ const OrderSchema = new mongoose.Schema({
     ref: "User",
     //required: false,
   },
+  calificacion: {
+    type: Number,
+    min: 0,
+    max: 5,
+  },
 });
 
 const Order = mongoose.model("Order", OrderSchema);

@@ -37,6 +37,10 @@ const RestaurantSchema = new mongoose.Schema({
     min: 0,
     max: 5,
   },
+  nCalificaciones: {
+    type: Number,
+    default: 0,
+  },
   administrador: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",

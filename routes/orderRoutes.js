@@ -8,6 +8,9 @@ router.post('/pedidos', orderController.createOrder);
 // Ruta para leer todos los pedidos realizados por el usuario proveído, enviados por el usuario proveído, pedidos a un restaurante proveído, y/o entre las fechas proveídas.
 router.get('/pedidos', orderController.getAllOrder);
 
+
+router.get('/pedidos/enviados', orderController.getSendOrders);
+
 // Ruta para leer un usuario por ID
 router.get('/pedidos/:orderId', orderController.getOrderById);
 

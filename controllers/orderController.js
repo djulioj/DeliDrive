@@ -1,5 +1,5 @@
 const Product = require("../models/product"); // Importa el modelo de producto
-const Restaurant = require("../models/restaurant"); // Importa el modelo de producto
+const Restaurant = require("../models/restaurant"); // Importa el modelo de restaurante
 const Order = require("../models/order"); // Importa el modelo de pedido
 const User = require("../models/user"); // Importa el modelo de usuario
 
@@ -57,7 +57,8 @@ const orderController = {
     try {
       let query = { habilitado: true };
 
-      const { usuario, restaurante, startDate, endDate, repartidor } = req.query;
+      const { usuario, restaurante, startDate, endDate, repartidor } =
+        req.query;
 
       if (usuario) query.usuario = usuario;
       if (restaurante) query.restaurante = restaurante;
@@ -68,7 +69,7 @@ const orderController = {
         };
       }
 
-      if(repartidor) query.repartidor = repartidor;
+      if (repartidor) query.repartidor = repartidor;
       console.log(query);
 
       const orders = await Order.find(query);
@@ -79,8 +80,6 @@ const orderController = {
       res.status(500).json({ error: "No se pudo recuperar los pedidos" });
     }
   },
-
-
 
   // Endpoint para leer un pedido por ID
   getOrderById: async (req, res) => {
@@ -101,6 +100,16 @@ const orderController = {
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: "No se pudo recuperar el pedido" });
+    }
+  },
+
+  getSendOrders: async (req, res) => {
+    try {
+      const orders = await Order.find({ status: "En Camino", isActive: true });
+
+      res.json(orders);
+    } catch (error) {
+      res.status(500).json({ error: error });
     }
   },
 
@@ -125,6 +134,15 @@ const orderController = {
       console.log(order);
       if (!order) {
         return res.status(404).send({ error: "Pedido no encontrado" });
+      }
+
+      if (updatedOrderData.calificacion) {
+        const restaurant = await Restaurant.findById(order.restaurante);
+        if (restaurant) {
+          restaurante.populadridad =
+            (updatedOrderData.calificacion + restaurante.populadridad) /
+            restaurante.nCalificaciones;
+        }
       }
 
       Object.assign(order, updatedOrderData);

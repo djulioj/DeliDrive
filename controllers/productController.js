@@ -1,5 +1,5 @@
 const Product = require("../models/product"); // Importa el modelo de producto
-const Restaurant = require("../models/restaurant"); // Importa el modelo de producto
+const Restaurant = require("../models/restaurant"); // Importa el modelo de restaurante
 
 const productController = {
   // Endpoint para crear un producto
