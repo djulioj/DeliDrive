@@ -36,7 +36,7 @@ const userController = {
       res.json(users);
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: "No se pudieron recuperar los usuarios" });
+      res.status(500).json({ error: "No se pudo recuperar los usuarios" });
     }
   },
 

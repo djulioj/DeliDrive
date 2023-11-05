@@ -38,7 +38,13 @@ const OrderSchema = new mongoose.Schema({
   },
   fechaCreado: {
     type: Date,
-    default: Date.now,
+    // Quitamos 5h para que sea hora colombiana
+    default: Date.now() - 1000 * 60 * 60 * 5,
+  },
+  repartidor: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    //required: false,
   },
 });
 

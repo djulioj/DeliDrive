@@ -12,7 +12,7 @@ const orderController = {
 
       const restaurant = await Restaurant.findOne({
         _id: orderData.restaurante,
-        isActive: true,
+        habilitado: true,
       });
 
       if (!restaurant) {
@@ -21,7 +21,7 @@ const orderController = {
 
       const user = await User.findOne({
         _id: orderData.usuario,
-        isActive: true,
+        habilitado: true,
       });
 
       if (!user) {
@@ -31,7 +31,7 @@ const orderController = {
       orderData.items.forEach(async (element) => {
         let product = await Product.findOne({
           _id: element.producto,
-          isActive: true,
+          habilitado: true,
         });
 
         if (!product) {
@@ -52,15 +52,15 @@ const orderController = {
     }
   },
 
-  // Endpoint para leer todos los pedidos
+  // Endpoint para leer todos los pedidos realizados por el usuario proveído, enviados por el usuario proveído, pedidos a un restaurante proveído, y/o entre las fechas proveídas.
   getAllOrder: async (req, res) => {
     try {
       let query = { habilitado: true };
 
-      const { userId, restaurantId, startDate, endDate } = req.query;
+      const { usuario, restaurante, startDate, endDate, repartidor } = req.query;
 
-      if (userId) query.userId = userId;
-      if (restaurantId) query.restaurantId = restaurantId;
+      if (usuario) query.usuario = usuario;
+      if (restaurante) query.restaurante = restaurante;
       if (startDate && endDate) {
         query.createdAt = {
           $gte: new Date(startDate),
@@ -68,12 +68,15 @@ const orderController = {
         };
       }
 
+      if(repartidor) query.repartidor = repartidor;
+      console.log(query);
+
       const orders = await Order.find(query);
 
       res.status(200).json(orders);
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: "No se pudieron recuperar los pedidos" });
+      res.status(500).json({ error: "No se pudo recuperar los pedidos" });
     }
   },
 
@@ -85,7 +88,7 @@ const orderController = {
       const orderId = req.params.orderId;
 
       // Lógica para buscar y devolver un pedido por ID
-      const order = await Product.findOne({
+      const order = await Order.findOne({
         _id: orderId,
         habilitado: true,
       });
@@ -109,18 +112,22 @@ const orderController = {
 
       // Lógica para actualizar los datos del producto
 
+      const repartidor = await User.findOne({
+        _id: updatedOrderData.repartidor,
+        habilitado: true,
+      });
+
+      if (!repartidor) {
+        return res.status(404).json({ message: "Repartidor no encontrado" });
+      }
+
       const order = await Order.findById(orderId);
+      console.log(order);
       if (!order) {
         return res.status(404).send({ error: "Pedido no encontrado" });
       }
 
-      if (order.estado === "En Camino") {
-        return res.status(400).send({
-          error: "No se puede modificar un pedido en estado 'En Curso'",
-        });
-      }
-
-      Object.assign(order, updates);
+      Object.assign(order, updatedOrderData);
       await order.save();
 
       res.json(order);

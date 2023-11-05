@@ -33,8 +33,6 @@ const restaurantController = {
     try {
       let query = { habilitado: true };
 
-      const { correo, contraseña } = req.query;
-
       if (req.query.categorias) {
         const categorias = req.query.categorias.split(",");
         console.log(categorias);
@@ -59,7 +57,7 @@ const restaurantController = {
       console.error(error);
       res
         .status(500)
-        .json({ error: "No se pudieron recuperar los restaurantes" });
+        .json({ error: "No se pudo recuperar los restaurantes" });
     }
   },
 

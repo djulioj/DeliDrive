@@ -49,7 +49,7 @@ const productController = {
       console.error(error);
       res
         .status(500)
-        .json({ error: "No se pudieron recuperar los productos" });
+        .json({ error: "No se pudo recuperar los productos" });
     }
   },
 
