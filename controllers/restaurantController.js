@@ -10,9 +10,9 @@ const restaurantController = {
 
       const user = await User.findOne({
         _id: restaurantData.administrador,
-        isActive: true,
+        habilitado: true,
       });
-
+//      console.log(user);
       if (!user) {
         return res.status(404).json({ message: "Usuario no encontrado" });
       }
@@ -28,7 +28,7 @@ const restaurantController = {
     }
   },
 
-  // Endpoint para leer todos los restaurantes
+  // Endpoint para leer todos los restaurantes que correspondan a la categoría proveída y/o su nombre se asemeje a la búsqueda.
   getAllRestaurant: async (req, res) => {
     try {
       let query = { habilitado: true };
@@ -36,13 +36,13 @@ const restaurantController = {
       const { correo, contraseña } = req.query;
 
       if (req.query.categorias) {
-        const categorias = req.query.category.split(",");
+        const categorias = req.query.categorias.split(",");
         console.log(categorias);
         query.categorias = { $in: categorias };
       }
 
       if (req.query.nombre) {
-        query.nombre = new RegExp(req.query.name, "i");
+        query.nombre = new RegExp(req.query.nombre, "i");
       }
 
       if (req.query.administrador) {
@@ -94,7 +94,7 @@ const restaurantController = {
       if (updatedRestaurantData.administrador) {
         const user = await User.findOne({
           _id: updatedRestaurantData.administrador,
-          isActive: true,
+          habilitado: true,
         });
 
         if (!user) {
