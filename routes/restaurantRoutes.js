@@ -5,7 +5,7 @@ const restaurantController = require('../controllers/restaurantController');
 // Ruta para crear un restaurante
 router.post('/restaurantes', restaurantController.createRestaurant);
 
-// Ruta para leer todos los restaurantes
+// Ruta para leer todos los restaurantes que correspondan a la categoría proveída y/o su nombre se asemeje a la búsqueda.
 router.get('/restaurantes', restaurantController.getAllRestaurant);
 
 // Ruta para leer un restaurante por ID

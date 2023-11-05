@@ -10,7 +10,7 @@ const productController = {
 
       const restaurant = await Restaurant.findOne({
         _id: productData.restaurante,
-        isActive: true,
+        habilitado: true,
       });
 
       if (!restaurant) {
@@ -28,7 +28,7 @@ const productController = {
     }
   },
 
-  // Endpoint para leer todos los productos
+  // Endpoint para leer todos los productos que correspondan al restaurante y/o categoría proveída
   getAllProducts: async (req, res) => {
     try {
       let query = { habilitado: true };
